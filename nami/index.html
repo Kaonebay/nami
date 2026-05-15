@@ -434,16 +434,13 @@ async function translate() {
   if (!input) return;
 
   const btn = document.getElementById('goBtn');
-  const btnText = document.getElementById('btnText');
-  const spinner = document.getElementById('spinner');
   const result = document.getElementById('result');
   const errMsg = document.getElementById('errMsg');
   const copyBtn = document.getElementById('copyBtn');
 
+  // Khởi động hiệu ứng chờ cho nó chuyên nghiệp
   btn.disabled = true;
-  btnText.style.display = 'none';
-  spinner.style.display = 'block';
-  result.textContent = '';
+  result.textContent = 'Đang mần, đợi xíu nghen...';
   result.classList.add('empty');
   errMsg.style.display = 'none';
   copyBtn.classList.remove('show');
@@ -454,50 +451,32 @@ async function translate() {
 
   try {
     const response = await fetch('/api/translate', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({
-    contents: [
-      {
-        role: "user",
-        parts: [
-          {
-            text: SYSTEM_PROMPTS[currentMode] + "\\n\\n" + userMsg
-          }
-        ]
-      }
-    ]
-  })
-});, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system: SYSTEM_PROMPTS[currentMode],
-        messages: [{ role: 'user', content: userMsg }]
+        contents: [{
+          role: "user",
+          parts: [{ text: SYSTEM_PROMPTS[currentMode] + "\n\n" + userMsg }]
+        }]
       })
     });
 
     const data = await response.json();
-
     if (data.error) throw new Error(data.error.message);
 
-    const text =
-  data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    // Lấy kết quả đổ ra ô Result
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Hổng thấy hồi âm gì hết trơn!';
     result.textContent = text;
     result.classList.remove('empty');
     copyBtn.classList.add('show');
 
   } catch (err) {
-    errMsg.textContent = 'Lỗi rồi anh ơi: ' + err.message;
+    // Báo lỗi kiểu Nam Kì luôn
+    errMsg.textContent = 'Trời đất ơi, lỗi rồi anh: ' + err.message;
     errMsg.style.display = 'block';
   } finally {
+    // Xong xuôi thì nhả cái nút ra
     btn.disabled = false;
-    btnText.style.display = 'block';
-    spinner.style.display = 'none';
   }
 }
 
