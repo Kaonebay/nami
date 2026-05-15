@@ -102,8 +102,8 @@
     background: rgba(60,45,18,0.28);
     border: 1px solid rgba(255,220,120,0.08);
     border-radius: 10px;
-    padding: 1rem;
-    margin-bottom: 0.7rem;
+    padding: 0.8rem;
+    margin-bottom: 0.45rem;
     backdrop-filter: blur(6px);
   }
 
@@ -184,25 +184,28 @@
   }
 
   .go-btn {
-    width: 100%;
-    padding: 0.65rem;
-    background: #d6aa43;
+    margin-top: 12px;
+    padding: 0.55rem 1rem;
+    background: #d8ab46;
     border: none;
     border-radius: 8px;
-    color: #2a1d0d;
+    color: #2b1d0d;
     font-family: 'Playfair Display', serif;
     font-size: 0.92rem;
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.04em;
     cursor: pointer;
-    transition: all 0.2s;
-    position: relative;
-    overflow: hidden;
-  }
+    transition: all 0.18s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    min-width: 110px;
+}
 
-  .go-btn:hover:not(:disabled) {
-    background: var(--gold-light);
+.go-btn:hover {
     transform: translateY(-1px);
+    background: #e0b654;
   }
 
   .go-btn:disabled {
@@ -328,20 +331,17 @@
 
   <div class="panel">
     <div class="panel-label">Nguyên văn — Source</div>
-    <textarea id="input" placeholder="Dán câu chữ vô đây — Paste your words here"></textarea>
+    <textarea id="input" placeholder="Biên chữ vô đây — Put your words here"></textarea><button class="go-btn" onclick="translate()" id="goBtn">
+  Dịch
+</button>
     <div class="word-count" id="wc">0 ký tự</div>
   </div>
 
-  <button class="go-btn" id="goBtn" onclick="translate()">
-    <span id="btnText">Dịch — Translate</span>
-    <div class="spinner" id="spinner"></div>
-  </button>
 
   <div class="error-msg" id="errMsg"></div>
 
   <div class="panel" style="margin-top:1rem; position:relative;">
-    <div style="text-align:center; font-size:28px; font-weight:900; color:var(--gold); line-height:1; margin-bottom:0.75rem;">⬇</div>
-    <div class="result-box empty" id="result">Translation appears here...</div>
+        <div class="result-box empty" id="result">Kết quả - Result</div>
     <button class="copy-btn" id="copyBtn" onclick="copyResult()">Sao chép</button>
   </div>
 
@@ -453,7 +453,7 @@ async function translate() {
     : input;
 
   try {
-    const response = await const response = await fetch('/api/translate', {
+    const response = await fetch('/api/translate', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json'
@@ -464,7 +464,7 @@ async function translate() {
         role: "user",
         parts: [
           {
-            text: SYSTEM_PROMPTS[currentMode] + "\n\n" + userMsg
+            text: SYSTEM_PROMPTS[currentMode] + "\\n\\n" + userMsg
           }
         ]
       }
