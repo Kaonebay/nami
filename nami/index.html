@@ -1,0 +1,503 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dịch Giọng Nam Kì</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Mulish:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C8932A;
+    --gold-light: #E8B84B;
+    --dark: #1A1208;
+    --dark2: #2A1F0A;
+    --cream: #F5EDD8;
+    --cream2: #EDE0C4;
+    --red: #8B2020;
+    --text: #3D2B0A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--dark);
+    font-family: 'Mulish', sans-serif;
+    min-height: 100vh;
+    color: var(--cream);
+    overflow-x: hidden;
+  }
+
+  .bg-pattern {
+    position: fixed; inset: 0; z-index: 0;
+    background-image:
+      repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(200,147,42,0.03) 40px, rgba(200,147,42,0.03) 41px),
+      repeating-linear-gradient(-45deg, transparent, transparent 40px, rgba(200,147,42,0.03) 40px, rgba(200,147,42,0.03) 41px);
+    pointer-events: none;
+  }
+
+  .container {
+    position: relative; z-index: 1;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  header {
+    text-align: center;
+    padding: 2.5rem 0 2rem;
+    border-bottom: 1px solid rgba(200,147,42,0.3);
+    margin-bottom: 2rem;
+  }
+
+  .logo-band {
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    margin-bottom: 0.5rem;
+  }
+
+  .logo-line {
+    width: 60px; height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold));
+  }
+  .logo-line.right {
+    background: linear-gradient(to left, transparent, var(--gold));
+  }
+
+  .diamond {
+    width: 8px; height: 8px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 900;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+  }
+
+  h1 span {
+    display: block;
+    font-size: 0.45em;
+    color: var(--cream2);
+    font-weight: 400;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-top: 0.3rem;
+    font-family: 'Mulish', sans-serif;
+  }
+
+  .tagline {
+    font-size: 13px;
+    color: rgba(245,237,216,0.5);
+    letter-spacing: 0.1em;
+    margin-top: 0.75rem;
+    text-transform: uppercase;
+  }
+
+  .panel {
+    background: rgba(42,31,10,0.8);
+    border: 1px solid rgba(200,147,42,0.25);
+    border-radius: 4px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    backdrop-filter: blur(4px);
+  }
+
+  .panel-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .panel-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(200,147,42,0.2);
+  }
+
+  textarea {
+    width: 100%;
+    background: rgba(26,18,8,0.6);
+    border: 1px solid rgba(200,147,42,0.2);
+    border-radius: 3px;
+    color: var(--cream);
+    font-family: 'Mulish', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    padding: 1rem;
+    resize: vertical;
+    min-height: 140px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  textarea:focus {
+    border-color: rgba(200,147,42,0.5);
+  }
+
+  textarea::placeholder {
+    color: rgba(245,237,216,0.25);
+    font-style: italic;
+  }
+
+  .mode-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .mode-btn {
+    padding: 6px 16px;
+    border: 1px solid rgba(200,147,42,0.3);
+    border-radius: 2px;
+    background: transparent;
+    color: rgba(245,237,216,0.5);
+    font-family: 'Mulish', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .mode-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .mode-btn.active {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--dark);
+    font-weight: 700;
+  }
+
+  .go-btn {
+    width: 100%;
+    padding: 1rem;
+    background: var(--gold);
+    border: none;
+    border-radius: 3px;
+    color: var(--dark);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .go-btn:hover:not(:disabled) {
+    background: var(--gold-light);
+    transform: translateY(-1px);
+  }
+
+  .go-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .go-btn .spinner {
+    display: none;
+    width: 18px; height: 18px;
+    border: 2px solid rgba(26,18,8,0.3);
+    border-top-color: var(--dark);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin: 0 auto;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .result-box {
+    background: rgba(26,18,8,0.6);
+    border: 1px solid rgba(200,147,42,0.2);
+    border-radius: 3px;
+    padding: 1.25rem;
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--cream);
+    min-height: 80px;
+    white-space: pre-wrap;
+    position: relative;
+  }
+
+  .result-box.empty {
+    color: rgba(245,237,216,0.2);
+    font-style: italic;
+    font-size: 13px;
+  }
+
+  .copy-btn {
+    position: absolute;
+    top: 10px; right: 10px;
+    background: rgba(200,147,42,0.15);
+    border: 1px solid rgba(200,147,42,0.3);
+    border-radius: 2px;
+    color: var(--gold);
+    font-family: 'Mulish', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: none;
+  }
+
+  .copy-btn:hover { background: rgba(200,147,42,0.3); }
+  .copy-btn.show { display: block; }
+
+  .footer-note {
+    text-align: center;
+    font-size: 11px;
+    color: rgba(245,237,216,0.2);
+    letter-spacing: 0.1em;
+    margin-top: 2rem;
+    text-transform: uppercase;
+  }
+
+  .error-msg {
+    background: rgba(139,32,32,0.3);
+    border: 1px solid rgba(139,32,32,0.5);
+    border-radius: 3px;
+    padding: 0.75rem 1rem;
+    font-size: 13px;
+    color: #ffaaaa;
+    margin-top: 0.75rem;
+    display: none;
+  }
+
+  .word-count {
+    font-size: 11px;
+    color: rgba(245,237,216,0.3);
+    text-align: right;
+    margin-top: 4px;
+  }
+</style>
+</head>
+<body>
+<div class="bg-pattern"></div>
+<div class="container">
+
+  <header>
+    <div class="logo-band">
+      <div class="logo-line"></div>
+      <div class="diamond"></div>
+      <div class="logo-line right"></div>
+    </div>
+    <h1>Nami<span>Speak Southern</span></h1>
+  </header>
+
+  <div class="panel">
+    <div class="panel-label">Chọn kiểu dịch</div>
+    <div class="mode-row">
+      <button class="mode-btn active" data-mode="en-vi">Anh — Nam</button>
+      <button class="mode-btn" data-mode="bac-nam">Bắc — Nam</button>
+      <button class="mode-btn" data-mode="script">Biên Soạn YouTube</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-label">Nguyên văn — Source</div>
+    <textarea id="input" placeholder="Dán câu chữ vô đây — Paste your words here"></textarea>
+    <div class="word-count" id="wc">0 ký tự</div>
+  </div>
+
+  <button class="go-btn" id="goBtn" onclick="translate()">
+    <span id="btnText">Dịch — Translate</span>
+    <div class="spinner" id="spinner"></div>
+  </button>
+
+  <div class="error-msg" id="errMsg"></div>
+
+  <div class="panel" style="margin-top:1rem; position:relative;">
+    <div style="text-align:center; font-size:28px; font-weight:900; color:var(--gold); line-height:1; margin-bottom:0.75rem;">⬇</div>
+    <div class="result-box empty" id="result">Translation appears here...</div>
+    <button class="copy-btn" id="copyBtn" onclick="copyResult()">Sao chép</button>
+  </div>
+
+  <p class="footer-note" style="margin-top:2rem; opacity:0.5; font-size:10px; font-style:italic; text-transform:none; letter-spacing:0.05em;">"Nami" — Namese, tiếng của người Nam.</p>
+
+</div>
+
+<script>
+const SYSTEM_PROMPTS = {
+  'en-vi': `Mày là chuyên gia dịch thuật giọng Nam Kì chính gốc Sài Gòn. Nhiệm vụ của mày là dịch văn bản tiếng Anh sang tiếng Việt theo đúng ngôn phong Nam Kì, không theo chuẩn Hà Nội hay ngôn ngữ viết chuẩn hóa.
+
+Quy tắc bắt buộc:
+- Dùng "ba/má" thay vì "bố/mẹ"
+- Dùng "ổng/bả/tụi nó" thay vì "ông ấy/bà ấy/họ"
+- Dùng "tui/mày" thay vì "tôi/bạn" (khi phù hợp)
+- Dùng "giỏ" thay vì "túi" (khi chỉ vật đựng đồ)
+- Dùng "dĩa" thay vì "đĩa"
+- Dùng "bóp" thay vì "ví"
+- Dùng "chút" thay vì "ít" (một chút, chút xíu)
+- Dùng "lắm/thiệt/nghen/đó/vậy" đúng chỗ
+- Dùng "hổng/hổng có" thay vì "không/không có"
+- Dùng "mần" thay vì "làm" (khi phù hợp)
+- Câu ngắn, tự nhiên như nói chuyện ngoài quán
+- Không dùng "anh ấy/chị ấy" — thay bằng "ổng/bả/cổ"
+- Không dùng "rất" — thay bằng "thiệt/lắm"
+- Giữ hồn Nam Kì, đừng Bắc hóa bất kỳ từ nào
+
+Chỉ trả về bản dịch, không giải thích gì thêm.`,
+
+  'bac-nam': `Mày là chuyên gia chuyển đổi ngôn phong từ tiếng Việt giọng Bắc/chuẩn sang giọng Nam Kì chính gốc Sài Gòn.
+
+Quy tắc bắt buộc:
+- Dùng "ba/má" thay "bố/mẹ"
+- Dùng "ổng/bả/cổ" thay "anh ấy/bà ấy/cô ấy"
+- Dùng "tui/mày/tụi" thay "tôi/bạn/họ"
+- Dùng "giỏ" thay "túi"
+- Dùng "dĩa" thay "đĩa"
+- Dùng "bóp" thay "ví"
+- Dùng "chút/chút xíu" thay "ít/một ít"
+- Dùng "hổng/hổng có" thay "không/không có"
+- Dùng "mần" thay "làm" (khi phù hợp)
+- Dùng "nghen/đó/vậy/nha" đúng chỗ
+- Dùng "lắm/thiệt" thay "rất/quá"
+- Dùng "coi" thay "xem" (coi phim, coi thử)
+- Dùng "dzậy" thay "vậy" (khi nói khẩu ngữ)
+- Câu ngắn, nhịp Nam Bộ
+
+Chỉ trả về bản chuyển đổi, không giải thích.`,
+
+  'script': `Mày là chuyên gia soạn script YouTube theo phong cách Nam Kì chính gốc Sài Gòn. Người dùng đưa chủ đề, mày soạn script hoàn chỉnh.
+
+Cấu trúc script:
+[HOOK - 0:00-0:08] Câu kéo người xem ở lại, thật tự nhiên
+[THÂN BÀI] Chia 3-4 điểm chính, mỗi điểm vài câu
+[CHỐT] Kêu gọi subscribe kiểu Nam Kì, thân thiết
+
+Ngôn phong bắt buộc:
+- "tui/mày/tụi mình" — không dùng "tôi/bạn"
+- "thiệt/lắm/nghen/đó/nha" đúng chỗ
+- "hổng" thay "không"
+- Câu ngắn, nhịp nói chuyện, không đọc như tin tức
+- Thêm tiếng lóng Sài Gòn tự nhiên
+- Mở đầu không được dùng "Chào mừng các bạn đến với kênh"
+
+Chỉ trả về script, không giải thích.`
+};
+
+let currentMode = 'en-vi';
+
+document.querySelectorAll('.mode-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentMode = btn.dataset.mode;
+    const placeholders = {
+      'en-vi': 'Dán văn bản tiếng Anh vào đây...',
+      'bac-nam': 'Dán văn bản giọng Bắc vào đây...',
+      'script': 'Nhập chủ đề YouTube của anh vào đây... (ví dụ: "3 mẹo kiếm tiền ở Sài Gòn không cần vốn")'
+    };
+    document.getElementById('input').placeholder = placeholders[currentMode];
+  });
+});
+
+document.getElementById('input').addEventListener('input', function() {
+  document.getElementById('wc').textContent = this.value.length + ' ký tự';
+});
+
+async function translate() {
+  const input = document.getElementById('input').value.trim();
+  if (!input) return;
+
+  const btn = document.getElementById('goBtn');
+  const btnText = document.getElementById('btnText');
+  const spinner = document.getElementById('spinner');
+  const result = document.getElementById('result');
+  const errMsg = document.getElementById('errMsg');
+  const copyBtn = document.getElementById('copyBtn');
+
+  btn.disabled = true;
+  btnText.style.display = 'none';
+  spinner.style.display = 'block';
+  result.textContent = '';
+  result.classList.add('empty');
+  errMsg.style.display = 'none';
+  copyBtn.classList.remove('show');
+
+  const userMsg = currentMode === 'script'
+    ? `Soạn script YouTube Nam Kì về chủ đề: "${input}"`
+    : input;
+
+  try {
+    const response = await const response = await fetch('/api/translate', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    contents: [
+      {
+        role: "user",
+        parts: [
+          {
+            text: SYSTEM_PROMPTS[currentMode] + "\n\n" + userMsg
+          }
+        ]
+      }
+    ]
+  })
+});, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: SYSTEM_PROMPTS[currentMode],
+        messages: [{ role: 'user', content: userMsg }]
+      })
+    });
+
+    const data = await response.json();
+
+    if (data.error) throw new Error(data.error.message);
+
+    const text =
+  data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    result.textContent = text;
+    result.classList.remove('empty');
+    copyBtn.classList.add('show');
+
+  } catch (err) {
+    errMsg.textContent = 'Lỗi rồi anh ơi: ' + err.message;
+    errMsg.style.display = 'block';
+  } finally {
+    btn.disabled = false;
+    btnText.style.display = 'block';
+    spinner.style.display = 'none';
+  }
+}
+
+function copyResult() {
+  const text = document.getElementById('result').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Đã chép!';
+    setTimeout(() => btn.textContent = 'Sao chép', 1500);
+  });
+}
+
+document.getElementById('input').addEventListener('keydown', function(e) {
+  if (e.ctrlKey && e.key === 'Enter') translate();
+});
+</script>
+</body>
+</html>
