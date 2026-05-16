@@ -125,10 +125,11 @@
 }
 
 .panel-label small {
-    font-size: 9px;
-    letter-spacing: 0.14em;
-    opacity: 0.5;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    opacity: 0.72;
     text-transform: lowercase;
+    margin-left: 4px;
 }
 
   .panel-label::after {
@@ -182,6 +183,10 @@
     text-transform: uppercase;
     cursor: pointer;
     transition: all 0.2s;
+    letter-spacing: 0.08em;
+    padding: 0.42rem 0.9rem;
+    font-size: 11px;
+    font-weight: 700;
   }
 
   .mode-btn:hover {
@@ -356,10 +361,10 @@
 </p>  </header>
 
   <div class="panel">
-    <div class="panel-label">Chọn kiểu dịch</div>
+    <div class="panel-label">Chọn kiểu dịch - Translation Mode</div>
     <div class="mode-row">
       <button class="mode-btn active" data-mode="en-vi">English — Nam</button>
-      <button class="mode-btn" data-mode="bac-nam">Bắc — Nam</button>
+      <button class="mode-btn" data-mode="bac-nam">Việt — Nam</button>
          </div>
   </div>
 
@@ -470,9 +475,9 @@ document.querySelectorAll('.mode-btn').forEach(btn => {
     btn.classList.add('active');
     currentMode = btn.dataset.mode;
     const placeholders = {
-      'en-vi': 'Dán văn bản tiếng Anh vào đây...',
-      'bac-nam': 'Dán văn bản giọng Bắc vào đây...',
-      'script': 'Nhập chủ đề YouTube của anh vào đây... (ví dụ: "3 mẹo kiếm tiền ở Sài Gòn không cần vốn")'
+      'en-vi': 'Add your words here...',
+      'bac-nam': 'Biên chữ của bạn vô đây...',
+      'script': 'Biên chủ đề mạng xã hội của bạn vô đây... (ví dụ: "3 mẹo kiếm tiền ở Sài Gòn không cần vốn")'
     };
     document.getElementById('input').placeholder = placeholders[currentMode];
   });
