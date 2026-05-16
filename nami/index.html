@@ -197,16 +197,17 @@
     box-shadow: 0 0 10px rgba(200,147,42,0.25);
   }
 .go-btn {
-    padding: 0.34rem 0.9rem;
+    padding: 0.38rem 1rem;
+
     background: var(--gold);
     border: none;
     border-radius: 5px;
+
     color: #24180B;
 
-    font-family: 'Mulish', sans-serif;
     font-size: 10px;
     font-weight: 700;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.14em;
 
     cursor: pointer;
 
@@ -215,18 +216,13 @@
     transition:
       opacity 0.18s ease,
       transform 0.18s ease,
-      background 0.18s ease;
-
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+      box-shadow 0.18s ease;
 }
 
 .go-btn:hover {
     opacity: 1;
-    background: var(--gold-light);
     transform: translateY(-1px);
-    box-shadow: 0 0 12px rgba(200,147,42,0.18);
+    box-shadow: 0 0 10px rgba(200,147,42,0.22);
 }
 
   .go-btn:disabled {
@@ -239,7 +235,12 @@
     display: flex;
     justify-content: flex-end;
 }
-
+.bottom-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+}
   .spinner {
     display: none;
     width: 18px; height: 18px;
@@ -252,7 +253,7 @@
 .action-row {
   display: flex;
   justify-content: flex-end;
-  margin-top: 10px;
+  
 }
   @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -317,15 +318,13 @@
 
   .word-count {
     font-size: 11px;
-    color: rgba(245,237,216,0.3);
-    text-align: left;
-    margin-top: 4px;
-  }
+    opacity: 0.45;
+    letter-spacing: 0.04em;
+}
 .action-row {
     display: flex;
     justify-content: flex-end;
-    margin-top: 12px;
-    margin-bottom: 4px;
+    
 }
 .subtitle {
     text-align: center;
@@ -364,19 +363,33 @@
          </div>
   </div>
 
-  <div class="panel-label">
-  <span>CHỮ CỦA BẠN</span>
-  <small>your words</small>
-</div>
-  <textarea id="input" placeholder="Biên chữ vô đây — Put your words here"></textarea>
+  <div class="panel">
 
-<div class="action-row">
-  <button class="go-btn" onclick="translate()" id="goBtn">
-    OK
-  </button>
-</div>
-    <div class="word-count" id="wc">0 ký tự</div>
+  <div class="panel-label">
+    <span>CHỮ CỦA BẠN</span>
+    <small>your words</small>
   </div>
+
+  <textarea
+    id="input"
+    placeholder="Biên chữ vô đây — Put your words here"
+  ></textarea>
+
+  <div class="bottom-row">
+
+    <div class="word-count" id="wc">
+      0 ký tự
+    </div>
+
+    <div class="action-row">
+      <button class="go-btn" onclick="translate()" id="goBtn">
+        OK
+      </button>
+    </div>
+
+  </div>
+
+</div>
 
 
   <div class="error-msg" id="errMsg"></div>
